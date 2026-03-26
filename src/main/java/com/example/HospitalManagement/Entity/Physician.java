@@ -10,10 +10,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "physician")
+@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class Physician {
 
     @Id
-    @Column(name = "EmployeeID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_id")
     private int employeeId;
 
     @Column(nullable = false)

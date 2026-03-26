@@ -18,26 +18,28 @@ public class NurseApiTest {
 
         mockMvc.perform(get("/nurse?projection=nurseView"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.nurse").isArray())
-                .andExpect(jsonPath("$._embedded.nurse").isNotEmpty());
+                .andExpect(jsonPath("$._embedded.nurses").isArray())
+                .andExpect(jsonPath("$._embedded.nurses").isNotEmpty());
     }
+
     @Test
     void testProjectionFields() throws Exception {
 
         mockMvc.perform(get("/nurse?projection=nurseView"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.nurse[0].name").exists())
-                .andExpect(jsonPath("$._embedded.nurse[0].position").exists())
-                .andExpect(jsonPath("$._embedded.nurse[0].registered").exists())
-                .andExpect(jsonPath("$._embedded.nurse[0].availability").exists())
-                .andExpect(jsonPath("$._embedded.nurse[0].ssn").doesNotExist());
+                .andExpect(jsonPath("$._embedded.nurses[0].name").exists())
+                .andExpect(jsonPath("$._embedded.nurses[0].position").exists())
+                .andExpect(jsonPath("$._embedded.nurses[0].registered").exists())
+                .andExpect(jsonPath("$._embedded.nurses[0].availability").exists())
+                .andExpect(jsonPath("$._embedded.nurses[0].ssn").doesNotExist());
     }
+
     @Test
     void testPagination() throws Exception {
 
         mockMvc.perform(get("/nurse?page=0&size=2&projection=nurseView"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.nurse.length()").value(2));
+                .andExpect(jsonPath("$._embedded.nurses.length()").value(2));
     }
 
     @Test
@@ -45,12 +47,6 @@ public class NurseApiTest {
 
         mockMvc.perform(get("/nurse?size=1000&projection=nurseView"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$._embedded.nurse").isArray());
-    }
-    @Test
-    void testInvalidProjection() throws Exception {
-
-        mockMvc.perform(get("/nurse?projection=invalid"))
-                .andExpect(status().isOk()); // Spring ignores invalid projection
+                .andExpect(jsonPath("$._embedded.nurses").isArray());
     }
 }

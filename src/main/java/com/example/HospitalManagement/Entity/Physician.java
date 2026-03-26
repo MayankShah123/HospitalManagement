@@ -6,13 +6,10 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "physician")
 @Data
-//@NoArgsConstructor
-//@AllArgsConstructor
 public class Physician {
 
     @Id
@@ -27,9 +24,5 @@ public class Physician {
     private String position;
 
     @Column(nullable = false, unique = true)
-    private int ssn;
-
-   
-
-   
+    private int ssn; 
 }

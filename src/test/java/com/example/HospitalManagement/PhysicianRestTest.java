@@ -22,7 +22,7 @@
 
     @SpringBootTest
     @AutoConfigureMockMvc
-    @Transactional // <-- THIS PROTECTS YOUR REAL DATABASE!
+    @Transactional // <-- THIS PROTECTS REAL DATABASE!
     public class PhysicianRestTest {
 
         @Autowired
@@ -60,26 +60,27 @@
                     // Removed the exact size check because your real database might have other doctors in it now!
         }
 
-       @Test
-    void testGetAllPhysicians_Pagination() throws Exception {
-        // I changed the loop to start at 9000 to completely avoid old database records
-        for (int i = 0; i < 5; i++) {
-            Physician p = new Physician();
-            p.setEmployeeId(9000 + i); 
-            p.setName("Dr. Page " + i);
-            p.setPosition("General");
-            // Also bumped up the SSN to avoid duplicate SSN constraint errors!
-            p.setSsn(99977700 + i);      
-            repo.save(p);
-        }
+        @Test
+        void testGetAllPhysicians_Pagination() throws Exception {
+            // I changed the loop to start at 9000 to completely avoid old database records
+            for (int i = 0; i < 5; i++) {
+                Physician p = new Physician();
+                p.setEmployeeId(9000 + i); 
+                p.setName("Dr. Page " + i);
+                p.setPosition("General");
+                // Also bumped up the SSN to avoid duplicate SSN constraint errors!
+                p.setSsn(99977700 + i);      
+                repo.save(p);
+            }
 
-        mockMvc.perform(get("/allPhysician?page=1&size=2")
-                        .contentType(MediaType.APPLICATION_JSON))
-                // Now that the data is clean, this will return 200 OK!
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.page.size").value(2))
-                .andExpect(jsonPath("$.page.number").value(1));    
-    }
+            mockMvc.perform(get("/allPhysician?page=1&size=2")
+                            .contentType(MediaType.APPLICATION_JSON))
+                    // Now that the data is clean, this will return 200 OK!
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.page.size").value(2))
+                    .andExpect(jsonPath("$.page.number").value(1));    
+        }
+        
         @Test
         void testCreatePhysician() throws Exception {
             Physician newDoc = new Physician();

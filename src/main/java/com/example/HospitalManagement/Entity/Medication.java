@@ -34,8 +34,8 @@ public class Medication implements Persistable<Integer>{
     @Column(name = "Name", nullable = false, length = 30)
     @NotBlank(message = "Name is required")
     @Pattern(
-        regexp = "^(?=.*[A-Za-z])[A-Za-z0-9 ]+$",
-        message = "Name must contain alphabets and no special characters"
+        regexp = "^(?=.*[A-Za-z])[A-Za-z0-9]+(-[A-Za-z0-9]+)*$",
+        message = "Invalid medication name"
     )
     @Size(max = 50, message = "Name too long")
     private String name;
